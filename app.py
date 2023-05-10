@@ -100,7 +100,7 @@ with C:
     st.subheader('Feature Importance')
     st.dataframe({
         'Variables': ['Average_Price', 'Employment', 'Amazon_Spend', 'Instacart_Spend', 'BP_Price', 'Inflation', 'Facebook_Spend'],
-        'Feature Importance': [5.33e-01, 3.54e-01, 9.34e-02, 1.94e-02, 5.04e-04, 5.18e-16, 0.00]
+        'Feature Importance': ['17.33%', '51.11%', '12.42%', '3.25%', '11.36%', '4.37%', '0.15%']
     })
 
 pipeline = None
@@ -111,7 +111,7 @@ with D:
         y = df.Sales
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
         pipeline = Pipeline([
-            ('ada', AdaBoostRegressor(n_estimators=108, random_state=1234))
+            ('ada', AdaBoostRegressor(n_estimators=20, random_state=1234))
         ])
         pipeline.fit(X_train, y_train)
 
