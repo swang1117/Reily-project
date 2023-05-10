@@ -127,10 +127,10 @@ with D:
     central_amazon_spend = st.number_input("Amazon_Spend Value")
     central_instacart_spend = st.number_input("Instacart_Spend Value")
 
-    range_width_bp_price = 1.25
-    range_width_avg_price = 1.5
-    range_width_inflation = 0.3
-    range_width_facebook_spend = 500
+    range_width_bp_price = 1
+    range_width_avg_price = 1
+    range_width_inflation = 0.1
+    range_width_facebook_spend = 100
     range_width_employment = 1
     range_width_amazon_spend = 10
     range_width_instacart_spend = 100
