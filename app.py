@@ -173,3 +173,4 @@ with D:
     plt.legend()
     plt.title('Kroger Mayo Sales Prediction')
     st.pyplot(plt.gcf())
+    st.write(f"Predicted sales value: {future_sales[-1]:.2f}")
