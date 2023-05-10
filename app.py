@@ -99,8 +99,8 @@ with C:
 
     st.subheader('Feature Importance')
     st.dataframe({
-        'Variables': ['Average_Price', 'Employment', 'Amazon_Spend', 'Instacart_Spend', 'BP_Price', 'Inflation', 'Facebook_Spend'],
-        'Feature Importance': ['17.33%', '51.11%', '12.42%', '3.25%', '11.36%', '4.37%', '0.15%']
+        'Variables': ['Employment', 'Average_Price', 'Amazon_Spend', 'BP_Price', 'Inflation', 'Instacart_Spend', 'Facebook_Spend'],
+        'Feature Importance': ['51.11%', '17.33%', '12.42%', '11.36%', '4.37%', '3.25%', '0.15%']
     })
 
 pipeline = None
