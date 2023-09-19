@@ -6,11 +6,12 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import AdaBoostRegressor
-import pickle
-from PIL import Image
+from joblib import dump, load
 import plotly.graph_objs as go
 from scipy import stats
 import random
+from PIL import Image
+
 
 
 st.set_page_config(page_title="Kroger Sales Prediction", layout="wide")
@@ -99,8 +100,8 @@ with C:
 
     st.subheader('Feature Importance')
     st.dataframe({
-        'Variables': ['Employment', 'Average_Price', 'Amazon_Spend', 'BP_Price', 'Inflation', 'Instacart_Spend', 'Facebook_Spend'],
-        'Feature Importance': ['51.11%', '17.33%', '12.42%', '11.36%', '4.37%', '3.25%', '0.15%']
+        'Variables': ['Average_Price', 'Employment', 'Amazon_Spend', 'Instacart_Spend', 'BP_Price', 'Inflation', 'Facebook_Spend'],
+        'Feature Importance': [5.33e-01, 3.54e-01, 9.34e-02, 1.94e-02, 5.04e-04, 5.18e-16, 0.00]
     })
 
 pipeline = None
@@ -111,12 +112,10 @@ with D:
         y = df.Sales
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
         pipeline = Pipeline([
-            ('ada', AdaBoostRegressor(n_estimators=20, random_state=1234))
+            ('ada', AdaBoostRegressor(n_estimators=108, random_state=1234))
         ])
         pipeline.fit(X_train, y_train)
-
-        with open('adapipeline.pkl', 'wb') as f:
-            pickle.dump(pipeline, f)
+        dump(pipeline, 'adapipeline.joblib')
 
     # Input min-max ranges for each feature
     central_bp_price = st.number_input("BP_Price Value")
@@ -127,10 +126,10 @@ with D:
     central_amazon_spend = st.number_input("Amazon_Spend Value")
     central_instacart_spend = st.number_input("Instacart_Spend Value")
 
-    range_width_bp_price = 1
-    range_width_avg_price = 1
-    range_width_inflation = 0.1
-    range_width_facebook_spend = 100
+    range_width_bp_price = 1.25
+    range_width_avg_price = 1.5
+    range_width_inflation = 0.3
+    range_width_facebook_spend = 500
     range_width_employment = 1
     range_width_amazon_spend = 10
     range_width_instacart_spend = 100
@@ -140,8 +139,7 @@ with D:
     num_months = st.slider('Select the number of months for prediction:', min_value=2, max_value=6)
     future_sales = np.zeros(num_months)
 
-    with open("adapipeline.pkl", "rb") as f:
-        loaded_pipeline = pickle.load(f)
+    loaded_pipeline = load('adapipeline.joblib')
 
     # Randomly choose values within the specified ranges for each feature
     future_bp_price = random.uniform(central_bp_price - range_width_bp_price, central_bp_price + range_width_bp_price)
@@ -173,4 +171,3 @@ with D:
     plt.legend()
     plt.title('Kroger Mayo Sales Prediction')
     st.pyplot(plt.gcf())
-    st.write(f"Predicted sales value: {future_sales[-1]:.2f}")
